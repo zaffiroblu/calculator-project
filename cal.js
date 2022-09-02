@@ -7,62 +7,13 @@ let storedValue = '';
 // This is just for testing the operator buttons, can be deleted later:
 let storedOperator = '';
 
+// This intially sets my display area to "0".
 const displayElement = document.getElementById('display');
 if (activeValue === '') {
 	displayElement.textContent = '0';
 }
 
-function checkActiveLength(value) {
-	if (value.length > 15) {
-		displayElement.textContent = 'Too large. Please press "Clear."';
-		return false;
-	}
-	return true;
-}
-
-//This is a function to push the value of the clicked calculator button to the
-//activeValue array, then concatenate multiple pushes.
-let pushToActiveValue = (buttonValue) => {
-	activeValue += buttonValue.toString();
-	displayElement.textContent = activeValue;
-	checkActiveLength(activeValue);
-};
-
-// This is my rounding function, so all results are rounded at the 3rd decimal place:
-const roundAccurately = (number) => Number(Math.round(number + 'e3') + 'e-3');
-
-function checkAndEvaluate() {
-	if (!checkActiveLength(activeValue)) {
-		return;
-	}
-	if (storedValue) {
-		if (storedOperator) {
-			let result = operate(storedOperator)(
-				parseFloat(storedValue),
-				parseFloat(activeValue)
-			);
-			let roundedResult = roundAccurately(result);
-			displayElement.textContent = roundedResult;
-			storedValue = roundedResult;
-		}
-	} else {
-		let roundedActiveValue = roundAccurately(activeValue);
-		storedValue = roundedActiveValue;
-		displayElement.textContent = roundedActiveValue;
-	}
-}
-
-const pointButton = document.getElementById('point');
-
-pointButton.addEventListener('click', () => {
-	if (activeValue.indexOf('.') > -1) {
-		pointButton.disabled = true;
-	} else {
-		pushToActiveValue('.');
-	}
-});
-
-///--- Here are the operators:
+///--- Here are my click events for the operators, "=", "clear" and "backspace" and "."
 const dividedByButton = document.getElementById('divided-by');
 dividedByButton.addEventListener('click', () => {
 	checkAndEvaluate();
@@ -118,7 +69,17 @@ backSpace.addEventListener('click', () => {
 	}
 });
 
-//Create functions for the following items: add, subtract, multiply, divide
+const pointButton = document.getElementById('point');
+
+pointButton.addEventListener('click', () => {
+	if (activeValue.indexOf('.') > -1) {
+		pointButton.disabled = true;
+	} else {
+		pushToActiveValue('.');
+	}
+});
+
+//Here are the functions for the invididual opertions: add, subtract, multiply, divide.
 const add = (num1, num2) => num1 + num2;
 
 const subtract = (num1, num2) => num1 - num2;
@@ -127,6 +88,8 @@ const multiply = (num1, num2) => num1 * num2;
 
 const divide = (num1, num2) => num1 / num2;
 
+// The function that performs the correct operation on
+// 1) activeValue, 2) storedValue, 3) operator.
 const operate = (operator) => (num1, num2) => {
 	if (operator == '+') {
 		return add(num1, num2);
@@ -138,6 +101,49 @@ const operate = (operator) => (num1, num2) => {
 		return divide(num1, num2);
 	}
 };
+
+// This function checks to make sure the string of digits in the display
+// aread is not too long.
+function checkActiveLength(value) {
+	if (value.length > 15) {
+		displayElement.textContent = 'Too large. Please press "Clear."';
+		return false;
+	}
+	return true;
+}
+
+//This is a function to push the value of the clicked calculator button to the
+//activeValue array, then concatenate multiple button presses.
+let pushToActiveValue = (buttonValue) => {
+	activeValue += buttonValue.toString();
+	displayElement.textContent = activeValue;
+	checkActiveLength(activeValue);
+};
+
+// This is my rounding function, so all results are rounded at the 3rd decimal place:
+const roundAccurately = (number) => Number(Math.round(number + 'e3') + 'e-3');
+
+// The function that gets called to check values and evaluate them.
+function checkAndEvaluate() {
+	if (!checkActiveLength(activeValue)) {
+		return;
+	}
+	if (storedValue) {
+		if (storedOperator) {
+			let result = operate(storedOperator)(
+				parseFloat(storedValue),
+				parseFloat(activeValue)
+			);
+			let roundedResult = roundAccurately(result);
+			displayElement.textContent = roundedResult;
+			storedValue = roundedResult;
+		}
+	} else {
+		let roundedActiveValue = roundAccurately(activeValue);
+		storedValue = roundedActiveValue;
+		displayElement.textContent = roundedActiveValue;
+	}
+}
 
 // console.log(activeValue);
 // console.log(typeof activeValue);
