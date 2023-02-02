@@ -1,25 +1,30 @@
 {
-  "name": "calculator-project",
-  "version": "1.0.0",
-  "description": "This is my calculator project for Odin.",
-  "main": "cal.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zaffiroblu/calculator-project.git"
-  },
-  "keywords": [
-    "calculator"
-  ],
-  "author": "Jen Shivel",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zaffiroblu/calculator-project/issues"
-  },
-  "homepage": "https://github.com/zaffiroblu/calculator-project#readme",
-  "dependencies": {
-    "bootstrap": "^5.2.0"
-  }
+	"name": "calculator-project",
+	"version": "1.0.0",
+	"description": "This is my calculator project for Odin.",
+	"main": "cal.js",
+	"watch": {
+		"test": "{src,test}/*.js"
+	},
+	"scripts": {
+		"test": "tape test/*.js",
+		"watch": "sass --watch sass/jen-main.scss:dist/css/jen-main.min.css"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/zaffiroblu/calculator-project.git"
+	},
+	"keywords": [
+		"calculator"
+	],
+	"author": "Jen Shivel",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/zaffiroblu/calculator-project/issues"
+	},
+	"homepage": "https://github.com/zaffiroblu/calculator-project#readme",
+	"dependencies": {
+		"bootstrap": "^5.2.0",
+		"npm-watch": "^0.11.0"
+	}
 }
